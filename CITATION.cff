@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "如果本软件对你的研究或教学有帮助，请按以下格式引用。"
+title: "CodeTrace 码迹：基于编辑行为序列与代码语义演化图的编程过程原创性判定系统"
+abstract: >-
+  CodeTrace 码迹评价对象是"代码的产生过程"而非最终文本，只输出可点击的过程证据与三档分级结论，
+  不输出二元"作弊/未作弊"判定。核心创新包括：基于编辑行为序列与代码语义演化图的编程过程异常检测
+  （分层语义差异度量：函数级精确树编辑距离、超规模降级为节点多重集差异）、
+  面向编程过程数据的防篡改存证与可申诉证据包生成（链式摘要 + 增量默克尔树 + 离线可校验），
+  以及基于过程行为轨迹的编程能力画像。
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/W-Y-Chen/codetrace"
+keywords:
+  - programming-education
+  - academic-integrity
+  - process-based-assessment
+  - code-evolution
+  - tree-edit-distance
+  - tamper-evident-log
+authors:
+  - name: "W-Y-Chen"
+version: "0.1.0"
+date-released: "2026-10-16"

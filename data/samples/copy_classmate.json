@@ -1,0 +1,101 @@
+{
+  "session_id": "s-copy",
+  "student_id": "stu-003",
+  "problem_id": "p001",
+  "label": "剧本3 抄同学后改名",
+  "events": [
+    {
+      "ts": 1700000000987,
+      "session_id": "s-copy",
+      "file_id": "main.py",
+      "op": "paste",
+      "range_start": 0,
+      "range_end": 332,
+      "text_len": 332,
+      "paste_len": 332,
+      "clipboard_hash": "22f807dc68149295",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000001714,
+      "session_id": "s-copy",
+      "snapshot_id": "s-copy-s1",
+      "ast_hash": "22f807dc68149295",
+      "code": "def countItems(items):\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sortItems(counts):\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef topElements(items):\n    counts = countItems(items)\n    pairs = sortItems(counts)\n    return [k for k, v in pairs]\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000002186,
+      "session_id": "s-copy",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 11,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000002764,
+      "session_id": "s-copy",
+      "snapshot_id": "s-copy-s2",
+      "ast_hash": "4109331d88e796ca",
+      "code": "def count_items(items):\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sortItems(counts):\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef topElements(items):\n    counts = count_items(items)\n    pairs = sortItems(counts)\n    return [k for k, v in pairs]\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000004060,
+      "session_id": "s-copy",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 10,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000004800,
+      "session_id": "s-copy",
+      "snapshot_id": "s-copy-s3",
+      "ast_hash": "2523e69b003494d7",
+      "code": "def count_items(items):\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef topElements(items):\n    counts = count_items(items)\n    pairs = sort_items(counts)\n    return [k for k, v in pairs]\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000005420,
+      "session_id": "s-copy",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 12,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000006087,
+      "session_id": "s-copy",
+      "snapshot_id": "s-copy-s4",
+      "ast_hash": "16bf06326243eed1",
+      "code": "def count_items(items):\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef top_elements(items):\n    counts = count_items(items)\n    pairs = sort_items(counts)\n    return [k for k, v in pairs]\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000009547,
+      "session_id": "s-copy",
+      "result": "pass",
+      "error_type": "",
+      "error_loc": "",
+      "next_fix_ms": null,
+      "kind": "run"
+    }
+  ]
+}

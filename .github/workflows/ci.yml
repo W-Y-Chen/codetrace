@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  tests:
+    name: 单元测试与演示剧本（${{ matrix.python-version }} / ${{ matrix.os }}）
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.9", "3.11", "3.13"]
+    env:
+      # Windows runner 默认 cp1252 控制台编码，输出中文会抛 UnicodeEncodeError
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: 安装测试依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+      # v0.1 核心算法为零第三方依赖，仅测试需要 pytest
+      - name: 运行单元测试
+        run: python -m pytest -q
+      - name: 跑通四个演示剧本（端到端链路）
+        run: python scripts/run_demo.py
+      - name: 生成样例事件文件
+        run: python scripts/gen_samples.py
+
+  nonbinary-invariant:
+    name: 非二元结论硬约束（架构层）
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pytest
+      # 任何返回路径都不得产出二元"作弊/未作弊"判定，这是设计红线
+      - name: 校验 Verdict 不含二元判定字段
+        run: python -m pytest tests/test_decision.py -q

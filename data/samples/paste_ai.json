@@ -1,0 +1,164 @@
+{
+  "session_id": "s-paste-ai",
+  "student_id": "stu-002",
+  "problem_id": "p001",
+  "label": "剧本2 粘贴AI结果",
+  "events": [
+    {
+      "ts": 1700000001393,
+      "session_id": "s-paste-ai",
+      "file_id": "main.py",
+      "op": "paste",
+      "range_start": 0,
+      "range_end": 478,
+      "text_len": 478,
+      "paste_len": 478,
+      "clipboard_hash": "23a0c9bd6cb1db3a",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000001678,
+      "session_id": "s-paste-ai",
+      "snapshot_id": "s-paste-ai-s1",
+      "ast_hash": "23a0c9bd6cb1db3a",
+      "code": "def count_items(items):\n    \"\"\"统计每个元素出现的次数。\"\"\"\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    \"\"\"按出现次数降序、元素升序排序。\"\"\"\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef top_elements(items):\n    \"\"\"返回排序后的元素列表。\"\"\"\n    counts = count_items(items)\n    pairs = sort_items(counts)\n    return [k for k, v in pairs]\n\n\nif __name__ == \"__main__\":\n    print(top_elements([\"a\", \"b\", \"a\"]))\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000002112,
+      "session_id": "s-paste-ai",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 10,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000002626,
+      "session_id": "s-paste-ai",
+      "snapshot_id": "s-paste-ai-s2",
+      "ast_hash": "23a0c9bd6cb1db3a",
+      "code": "def count_items(items):\n    \"\"\"统计每个元素出现的次数。\"\"\"\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    \"\"\"按出现次数降序、元素升序排序。\"\"\"\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef top_elements(items):\n    \"\"\"返回排序后的元素列表。\"\"\"\n    counts = count_items(items)\n    pairs = sort_items(counts)\n    return [k for k, v in pairs]\n\n\nif __name__ == \"__main__\":\n    print(top_elements([\"a\", \"b\", \"a\"]))\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000003893,
+      "session_id": "s-paste-ai",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 10,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000004481,
+      "session_id": "s-paste-ai",
+      "snapshot_id": "s-paste-ai-s3",
+      "ast_hash": "23a0c9bd6cb1db3a",
+      "code": "def count_items(items):\n    \"\"\"统计每个元素出现的次数。\"\"\"\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    \"\"\"按出现次数降序、元素升序排序。\"\"\"\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef top_elements(items):\n    \"\"\"返回排序后的元素列表。\"\"\"\n    counts = count_items(items)\n    pairs = sort_items(counts)\n    return [k for k, v in pairs]\n\n\nif __name__ == \"__main__\":\n    print(top_elements([\"a\", \"b\", \"a\"]))\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000005966,
+      "session_id": "s-paste-ai",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 10,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000006532,
+      "session_id": "s-paste-ai",
+      "snapshot_id": "s-paste-ai-s4",
+      "ast_hash": "23a0c9bd6cb1db3a",
+      "code": "def count_items(items):\n    \"\"\"统计每个元素出现的次数。\"\"\"\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    \"\"\"按出现次数降序、元素升序排序。\"\"\"\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef top_elements(items):\n    \"\"\"返回排序后的元素列表。\"\"\"\n    counts = count_items(items)\n    pairs = sort_items(counts)\n    return [k for k, v in pairs]\n\n\nif __name__ == \"__main__\":\n    print(top_elements([\"a\", \"b\", \"a\"]))\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000007198,
+      "session_id": "s-paste-ai",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 4,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000007594,
+      "session_id": "s-paste-ai",
+      "snapshot_id": "s-paste-ai-s5",
+      "ast_hash": "c43c7668668d73ea",
+      "code": "def count_items(items):\n    \"\"\"统计每个元素出现的次数。\"\"\"\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    \"\"\"按出现次数降序、元素升序排序。\"\"\"\n    return sorted(counts.items(), key=lambda pair: (-pair[1], pair[0]))\n\n\ndef top_elements(items):\n    \"\"\"返回排序后的元素列表。\"\"\"\n    counts = count_items(items)\n    pairs = sort_items(counts)\n    return [k for k, v in pairs]\n\n\nif __name__ == \"__main__\":\n    print(top_elements([\"a\", \"b\", \"a\"]))\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000008541,
+      "session_id": "s-paste-ai",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 2,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000009196,
+      "session_id": "s-paste-ai",
+      "snapshot_id": "s-paste-ai-s6",
+      "ast_hash": "22b44c21c8486ab4",
+      "code": "def count_items(items):\n    \"\"\"统计每个元素出现的次数。\"\"\"\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    \"\"\"按出现次数降序、元素升序排序。\"\"\"\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef top_elements(items):\n    \"\"\"返回排序后的元素列表。\"\"\"\n    counts = count_items(items)\n    kvs = sort_items(counts)\n    return [k for k, v in kvs]\n\n\nif __name__ == \"__main__\":\n    print(top_elements([\"a\", \"b\", \"a\"]))\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000009624,
+      "session_id": "s-paste-ai",
+      "file_id": "main.py",
+      "op": "replace",
+      "range_start": 0,
+      "range_end": 0,
+      "text_len": 6,
+      "paste_len": 0,
+      "clipboard_hash": "",
+      "snapshot_id": "",
+      "kind": "edit"
+    },
+    {
+      "ts": 1700000010050,
+      "session_id": "s-paste-ai",
+      "snapshot_id": "s-paste-ai-s7",
+      "ast_hash": "22b44c21c8486ab4",
+      "code": "def count_items(items):\n    \"\"\"统计每个元素出现的次数。\"\"\"\n    counts = {}\n    for it in items:\n        counts[it] = counts.get(it, 0) + 1\n    return counts\n\n\ndef sort_items(counts):\n    \"\"\"按出现次数降序、元素升序排序。\"\"\"\n    return sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))\n\n\ndef top_elements(items):\n    \"\"\"返回排序后的元素列表。\"\"\"\n    counts = count_items(items)\n    kvs = sort_items(counts)\n    return [k for k, v in kvs]\n\n\nif __name__ == \"__main__\":\n    print(top_elements([\"a\", \"b\", \"a\"]))\n",
+      "kind": "snapshot"
+    },
+    {
+      "ts": 1700000013590,
+      "session_id": "s-paste-ai",
+      "result": "pass",
+      "error_type": "",
+      "error_loc": "",
+      "next_fix_ms": null,
+      "kind": "run"
+    }
+  ]
+}

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CodeTrace 码迹 · 编程过程性证据分析原型 v0.1</title>
+<style>
+  :root { --bg:#f7f8fa; --card:#ffffff; --line:#e3e6ea; --text:#1f2328; --muted:#6b7280;
+          --blue:#185fa5; --blue-bg:#e6f1fb; --teal:#0f6e56; --teal-bg:#e1f5ee;
+          --amber:#854f0b; --amber-bg:#faeeda; --red:#a32d2d; --red-bg:#fcebeb; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+         font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; font-size:14px; line-height:1.6; }
+  header { background:var(--card); border-bottom:1px solid var(--line); padding:16px 24px; }
+  header h1 { margin:0; font-size:18px; font-weight:500; }
+  header p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+  main { max-width:1100px; margin:0 auto; padding:20px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; }
+  .card h2 { margin:0 0 12px; font-size:15px; font-weight:500; }
+  .row { display:flex; gap:8px; flex-wrap:wrap; }
+  button { padding:7px 14px; border:1px solid var(--line); background:var(--card); border-radius:6px;
+           cursor:pointer; font-size:13px; color:var(--text); }
+  button:hover { border-color:var(--blue); color:var(--blue); }
+  button.primary { background:var(--blue); color:#fff; border-color:var(--blue); }
+  button.primary:hover { opacity:.9; color:#fff; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:820px){ .grid{ grid-template-columns:1fr; } }
+  .verdict { border-radius:8px; padding:12px 14px; margin-bottom:12px; }
+  .v-none { background:var(--teal-bg); border:1px solid var(--teal); }
+  .v-watch { background:var(--amber-bg); border:1px solid var(--amber); }
+  .v-review { background:var(--red-bg); border:1px solid var(--red); }
+  .verdict .level { font-size:16px; font-weight:500; }
+  .verdict .reason { font-size:12px; color:var(--muted); margin-top:4px; }
+  .ch { display:flex; align-items:center; gap:10px; margin:6px 0; font-size:13px; }
+  .ch .name { width:28px; color:var(--muted); }
+  .ch .bar { flex:1; height:10px; background:#eef0f2; border-radius:5px; overflow:hidden; }
+  .ch .bar > i { display:block; height:100%; background:var(--blue); }
+  .ch .score { width:44px; text-align:right; font-variant-numeric:tabular-nums; }
+  .ch.off { opacity:.45; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  td, th { padding:5px 8px; border-bottom:1px solid var(--line); text-align:left; }
+  th { color:var(--muted); font-weight:400; }
+  ul.ev { margin:6px 0 0; padding-left:18px; font-size:13px; }
+  ul.ev li { margin:3px 0; }
+  textarea { width:100%; height:190px; font-family:Consolas,Menlo,monospace; font-size:13px;
+             border:1px solid var(--line); border-radius:6px; padding:10px; resize:vertical; }
+  .muted { color:var(--muted); font-size:12px; }
+  .pill { display:inline-block; padding:1px 8px; border-radius:10px; font-size:12px; background:var(--blue-bg); color:var(--blue); }
+  pre { background:#f2f4f6; padding:10px; border-radius:6px; overflow:auto; font-size:12px; margin:8px 0 0; }
+  .spark { width:100%; height:60px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>CodeTrace 码迹 · 编程过程性证据分析原型 v0.1</h1>
+  <p>评价对象是代码的产生过程，不是最终文本；系统只输出可点击的过程证据与三档分级结论，不输出二元判定。</p>
+</header>
+
+<main>
+  <div class="card">
+    <h2>回放模式 · 四种典型过程</h2>
+    <div class="row" id="scenarioBtns">
+      <button data-key="handwrite">剧本1 现场手写</button>
+      <button data-key="paste_ai">剧本2 粘贴 AI 结果</button>
+      <button data-key="copy_classmate">剧本3 抄同学后改名</button>
+      <button data-key="local_ai_assist">剧本4 手写+局部 AI 补全</button>
+    </div>
+    <p class="muted" style="margin-top:8px">点击任一剧本，服务端即时分析并展示过程证据。</p>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none">
+    <h2>分析结果 <span class="pill" id="sessionTag"></span></h2>
+    <div class="verdict" id="verdictBox">
+      <div class="level" id="verdictLevel"></div>
+      <div class="reason" id="verdictReason"></div>
+    </div>
+    <div class="grid">
+      <div>
+        <h2>五通道分值</h2>
+        <div id="channels"></div>
+      </div>
+      <div>
+        <h2>过程特征</h2>
+        <table id="features"></table>
+        <h2 style="margin-top:14px">语义演化（Δsem 序列）</h2>
+        <svg class="spark" id="spark" viewBox="0 0 400 60" preserveAspectRatio="none"></svg>
+      </div>
+    </div>
+    <h2 style="margin-top:14px">高亮证据片段</h2>
+    <ul class="ev" id="highlights"></ul>
+    <div class="row" style="margin-top:12px">
+      <button id="btnVerify">校验证据包（离线）</button>
+      <button id="btnTamper">篡改一条事件后再次校验</button>
+    </div>
+    <pre id="verifyOut"></pre>
+  </div>
+
+  <div class="card">
+    <h2>录制模式 · 自己写一段代码</h2>
+    <p class="muted">编辑器会记录：键入片段、粘贴字节数、快照；可手动添加运行事件。点击"分析本次过程"查看证据。</p>
+    <textarea id="editor" placeholder="在此输入或粘贴 Python 代码…"></textarea>
+    <div class="row" style="margin-top:8px">
+      <button id="btnRunPass">添加运行：通过</button>
+      <button id="btnRunFail">添加运行：失败</button>
+      <button id="btnAnalyze" class="primary">分析本次过程</button>
+      <button id="btnReset">清空</button>
+    </div>
+    <p class="muted" style="margin-top:6px">已记录：<span id="stat">0</span> 个事件</p>
+  </div>
+
+  <div class="card">
+    <h2>说明</h2>
+    <ul class="ev">
+      <li>本原型使用<b>模拟数据</b>验证链路，结果<b>不是真实评测指标</b>；真实指标须按方案 §8 采集对照数据集后实测。</li>
+      <li>系统输出为过程证据摘要与复核建议，<b>不构成原创性判定结论</b>，最终判定由教师作出。</li>
+      <li>v0.1 仅支持 Python（标准库 ast 解析）；多语言（tree-sitter）与 VS Code 插件为二期。</li>
+    </ul>
+  </div>
+</main>
+
+<script>
+const state = { package:null, events:[], t:1700000000000, seq:0, code:"" };
+const $ = id => document.getElementById(id);
+
+function tick(){ state.t += 500 + Math.floor(Math.random()*1500); return state.t; }
+
+document.querySelectorAll('#scenarioBtns button').forEach(btn => {
+  btn.onclick = () => loadScenario(btn.dataset.key);
+});
+
+async function loadScenario(key) {
+  const res = await fetch('/api/demo/' + key);
+  if (!res.ok) { alert('分析失败'); return; }
+  const result = await res.json();
+  state.package = result.package || null;
+  renderSummary({
+    session_id: result.session_id,
+    verdict: result.verdict,
+    channels: result.channels,
+    features: result.features
+  });
+  renderEvolution(result.evolution || []);
+}
+
+function renderSummary(item) {
+  $('resultCard').style.display = 'block';
+  $('sessionTag').textContent = item.session_id;
+  const v = item.verdict;
+  const box = $('verdictBox');
+  box.className = 'verdict ' + ({none:'v-none', watch:'v-watch', review:'v-review'}[v.level_code] || '');
+  $('verdictLevel').textContent = `${v.level} · 过程完整度 ${v.integrity_score}/100`;
+  $('verdictReason').textContent = v.reason;
+
+  $('channels').innerHTML = Object.entries(item.channels).map(([k, c]) => {
+    const pct = Math.round(c.score * 100);
+    return `<div class="ch ${c.enabled?'':'off'}">
+      <span class="name">${k}</span>
+      <span class="bar"><i style="width:${pct}%"></i></span>
+      <span class="score">${c.score.toFixed(2)}</span></div>`;
+  }).join('');
+
+  const f = item.features;
+  $('features').innerHTML = [
+    ['编辑次数', f.n_edits], ['运行次数', f.n_runs], ['快照数', f.n_snapshots],
+    ['粘贴占比', (f.paste_ratio*100).toFixed(0)+'%'],
+    ['最大单次粘贴', f.max_paste_burst + ' 字符'],
+    ['最大语义变化 Δsem', f.max_dsem], ['突变点', f.mutation_count],
+    ['调试密度', f.debug_density.toFixed(1)+'/100'], ['风格漂移', f.style_drift]
+  ].map(([a,b]) => `<tr><th>${a}</th><td>${b}</td></tr>`).join('');
+
+  $('highlights').innerHTML = v.highlights.length
+    ? v.highlights.map(h => `<li><b>${h.channel}</b> · ${h.kind} @ ${h.loc||'-'} —— ${h.detail}</li>`).join('')
+    : '<li class="muted">无高亮片段</li>';
+  $('verifyOut').textContent = '';
+}
+
+function renderEvolution(edges) {
+  const svg = $('spark');
+  if (!edges.length) { svg.innerHTML = ''; return; }
+  const vals = edges.map(e => e.dsem);
+  const max = Math.max(...vals, 0.01);
+  const n = vals.length;
+  const pts = vals.map((v,i) => `${(i/Math.max(n-1,1))*390+5},${55 - (v/max)*50}`).join(' ');
+  svg.innerHTML = `<polyline points="${pts}" fill="none" stroke="#185fa5" stroke-width="1.5"/>
+    ${vals.map((v,i)=>`<circle cx="${(i/Math.max(n-1,1))*390+5}" cy="${55-(v/max)*50}" r="2" fill="#185fa5"/>`).join('')}`;
+}
+
+$('btnVerify').onclick = async () => {
+  if (!state.package) { $('verifyOut').textContent = '暂无证据包'; return; }
+  const res = await fetch('/api/verify', { method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ package: state.package }) });
+  $('verifyOut').textContent = JSON.stringify(await res.json(), null, 2);
+};
+
+$('btnTamper').onclick = async () => {
+  if (!state.package) { $('verifyOut').textContent = '暂无证据包'; return; }
+  const pkg = JSON.parse(state.package);
+  const idx = Math.min(2, pkg.events.length - 1);
+  if (pkg.events[idx].paste_len !== undefined) pkg.events[idx].paste_len = 8888;
+  else pkg.events[idx].ts = pkg.events[idx].ts + 1;
+  const res = await fetch('/api/verify', { method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ package: JSON.stringify(pkg) }) });
+  const out = await res.json();
+  $('verifyOut').textContent = `已篡改第 ${idx} 条事件后校验：\n` + JSON.stringify(out, null, 2);
+};
+
+const editor = $('editor');
+let lastLen = 0;
+editor.addEventListener('input', (e) => {
+  const cur = editor.value.length;
+  const delta = cur - lastLen;
+  if (delta > 0) {
+    const pasted = (e.inputType === 'insertFromPaste') ? delta : 0;
+    state.events.push({ kind:'edit', ts:tick(), session_id:'live', op: pasted ? 'paste':'insert',
+      text_len: delta, paste_len: pasted, clipboard_hash:'' });
+  }
+  state.code = editor.value;
+  state.events.push({ kind:'snapshot', ts:tick(), session_id:'live',
+    snapshot_id:'live-s'+(++state.seq), ast_hash:'', code: editor.value });
+  lastLen = cur;
+  $('stat').textContent = state.events.length;
+});
+
+$('btnRunPass').onclick = () => addRun('pass');
+$('btnRunFail').onclick = () => addRun('fail', 'RuntimeError', 'line 1');
+function addRun(result, error_type='', error_loc='') {
+  state.events.push({ kind:'run', ts:tick(), session_id:'live', result, error_type, error_loc });
+  $('stat').textContent = state.events.length;
+}
+
+$('btnAnalyze').onclick = async () => {
+  if (!state.events.length) { alert('请先输入代码'); return; }
+  const res = await fetch('/api/analyze', { method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ session_id:'live', student_id:'stu-live', problem_id:'p001', events: state.events }) });
+  const result = await res.json();
+  state.package = result.package;
+  renderSummary({ session_id:'live', verdict:result.verdict, channels:result.channels, features:result.features });
+  renderEvolution(result.evolution || []);
+};
+
+$('btnReset').onclick = () => { state.events=[]; state.seq=0; lastLen=0; editor.value=''; $('stat').textContent='0'; };
+</script>
+</body>
+</html>
